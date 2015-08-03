@@ -27,7 +27,7 @@ var timesCalled = {};
 
 function getFuncFromString(str) {
   return _.find(baseArray, function(el){
-    return el.name == str;
+    return el.name === str;
   });
 }
 
@@ -43,7 +43,7 @@ function add(fn, times){
 function remove(fn, times){
   _.times(times, function(){
     var idx = _.findIndex(workingArr, function(el){
-      el.name = fn;
+      return el.name === fn;
     });
 
     workingArr.splice(idx, 1);
@@ -71,7 +71,7 @@ function again(predicate, fn){
 
 function N(fn) {
  return _.filter(workingArr, function(el){
-  return el.name = fn;
+  return el.name === fn;
  }).length;
 }
 

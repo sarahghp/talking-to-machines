@@ -1,23 +1,25 @@
 function teeth() { 
-  console.log('Bite with teeth');
+ console.log('Bite with teeth');
 }
 
 function moo() {
-   theres_a_cow = true;
+ console.log('moo');
+ theres_a_cow = true;
 
-   add("roof");
-   add("teeth");
+ add("roof");
+ add("teeth");
 }
 
 function roof() {
-   theres_a_dog = true;
+ console.log('roof');
+ theres_a_dog = true;
 
-   if (theres_a_dog) {
-       add("teeth");
-       add("moo");
-   }
+ if (theres_a_dog) {
+   add("teeth");
+   add("moo");
+ }
 }
 
 function count() {
-  console.log('teeth', N('teeth'));
+ console.log('teeth', N('teeth'));
 }

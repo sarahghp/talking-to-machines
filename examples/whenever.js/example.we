@@ -1,0 +1,10 @@
+function teeth() { 
+  console.log('Bite with teeth');
+}
+
+function monster() {
+
+    if (true){
+      console.log('OMG FUNCTION MONSTERS');
+    }
+}

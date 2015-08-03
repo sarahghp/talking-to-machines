@@ -1,0 +1,89 @@
+<meta charset="utf-8">
+
+<script src="js/jquery.js"></script>
+<script src="js/jqconsole.js"></script>
+<script src="js/lodash.js"></script>
+<script src="js/sugar.js"></script>
+<script src="js/peg.js"></script>
+<script src="js/plt.js"></script>
+<script src="treesplease.js"></script>
+
+<script>
+  PLT.repl = run;
+</script>
+
+<title>Language</title>
+
+<grammar>
+  start             = program / id
+  program           = scope / assignment / operation / string / number
+
+  scope             = space '(' space 'let' space as:assignment+ space ar:start* space pr:program* space ')'
+                      {return { operator: 'let', expressions: [as, ar, pr]  } }
+
+
+  operation         = space '(' space o:operator space exp:start* space ')' space 
+                      { return {operator: o, expressions: exp }}
+  operator          = '>'/'<'/'+'/'-'/'*'/'='/'if'/'let'/'print'/id
+
+
+  assignment        = space '[' space i:id space s:string space ']' space 
+                      { return { operator: 'assignment', expressions: [i, s]}; }
+  
+  string            = space quote str:(mandatory_space/letter)+ quote space { return str.join("") ; }
+  id                = r:raw_id { return {operator: 'var', expressions: r } }
+  raw_id            = t:text+ { return t.join(""); }
+  letter            = [^" \n]
+  text              = [a-zA-Z-]
+
+  number            = d:digit+ space { return +(d.join(''));  }
+  digit             = [0123456789.-]
+
+  space             = [ \n]* / !. { return undefined }
+  mandatory_space   = [ \n]+ / !. { return undefined }
+
+  quote             = ["']
+
+</grammar>
+
+<h3>Numbers</h3>
+<code>67</code>
+<code>-17</code>
+<code>22.3</code>
+<code>-0.3</code>
+
+<h3>Strings</h3>
+<code>"Hello, World!"</code>
+
+<h3>Identifiers</h3>
+<em>These are used for variable names. How do you parse them into somehting different from a string?</em>
+<code>foo</code>
+<code>bar</code>
+<code>some-identifier</code>
+
+<h3>Operations</h3>
+<code>(+ 1 2)</code>
+<code>(- 1 2)</code>
+<code>(* 1 2)</code>
+<code>(+ 1 2 3 4 5)</code>
+<code>(< 5 6)</code>
+<code>(< 5 6 8 20 34)</code>
+<code>(+ 5 6 (+ 8 20) 34)</code>
+<code>(print "Hello, World!")</code>
+<code>(print "hey" "you")</code>
+<code>(= (+ 1 2) (+ 3 4))</code>
+
+<h3>Nesting</h3>
+<code>(< (+ 1 2) 6)</code>
+<code>(< (+ 1 2) (+ 8 (* 3 (+ 8 (* 3 (+ 8 (* 3 4)))))))</code>
+<code>(if (< 20 10) 55 22)</code>
+<code>(if (< 20 10) (print "less!") (print "more!"))</code>
+
+<h3>Scope</h3>
+<code>(let [name "Sarah"] (print name) (print "pie"))</code>
+<code>(let [name "Sarah"] [tiger "elephant"] (print name) (print "pie") (print tiger))</code>
+<code>(let [name "Sarah"] (let [tiger "elephant"] (print name)) 1)</code>
+<code>(let [name "Sarah"] (let [tiger "elephant"] (print name)) "1")</code>
+<code>(let [name "Sarah"] (let [tiger "elephant"] (print tiger) (print name)) (print tiger) (print name))</code>
+
+<code>(let [name "Sarah"] (let [name "Hacker School"] (print name)) (print name))</code>

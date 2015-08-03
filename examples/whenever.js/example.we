@@ -17,3 +17,7 @@ function roof() {
        add("moo");
    }
 }
+
+function count() {
+  console.log('teeth', N('teeth'));
+}

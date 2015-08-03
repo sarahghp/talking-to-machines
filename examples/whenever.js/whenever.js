@@ -19,15 +19,21 @@ var grammar = fs.readFileSync(__dirname + '/lib/grammar.txt').toString(),
     parser  = PEG.buildParser(grammar),
     bag     = parser.parse(file.toString());
 
-console.log(bag);
+// console.log(bag);
 
 // Built-in whenever funcs
 
+var timesCalled = {};
+
+function getFuncFromString(str) {
+  return _.find(baseArray, function(el){
+    return el.name = str;
+  });
+}
+
 function add(fn, times){
   var times = times || 1,
-      fn    = _.find(baseArray, function(el){
-                return el.name = fn;
-             });
+      fn    = getFuncFromString(fn);
   
   _.times(times, function(){
     workingArr.push(fn);
@@ -44,16 +50,29 @@ function remove(fn, times){
   });
 }
 
-function defer(check, times, cb){
-
+function defer(check, times, cb) {
+  if(timesCalled[check] > times) {
+     _.isString(cb) ? getFuncFromString(cb)() : cb();
+  }
 }
 
 function again(predicate, fn){
+  var fn        = _.isString(fn) ? getFuncFromString(fn) : fn,
+      predicate = _.isString(predicate) ? _.includes(workingArr, fn) : predicate;
+      
+  if (predicate){
+    fn();
+    workingArr.push(fn);
+  } else {
+    fn();
+  }
 
 }
 
 function N(fn) {
- return 
+ return _.filter(workingArr, function(el){
+  return el.name = fn;
+ }).length;
 }
 
 
@@ -62,7 +81,8 @@ function N(fn) {
 function deStringify(arr) {
   return _.map(arr, function(el){
     eval('var moo = ' + el);
-    return moo
+    timesCalled[moo.name] = 0;
+    return moo;
   });
 }
 
@@ -77,14 +97,18 @@ function run(arr) {
 
   workingArr = arr;
 
-  var num = Math.round(Math.random() * length),
-      chosen = _.pullAt(workingArr, num);
+  var num = Math.floor(Math.random() * length),
+      chosen = _.pullAt(workingArr, num)[0];
 
-  console.log('CHOSEN 0', workingArr, chosen, chosen[0])
-  chosen[0]();
+  chosen();
+  timesCalled[chosen.name]++;
   run(workingArr);
   
 }
 
-var baseArray = deStringify(bag);
+// ACTION
+
+var baseArray = deStringify(bag),
+    workingArr;
+
 run(baseArray.slice()); // call run on a copy of the base array

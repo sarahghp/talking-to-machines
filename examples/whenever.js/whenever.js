@@ -27,7 +27,7 @@ var timesCalled = {};
 
 function getFuncFromString(str) {
   return _.find(baseArray, function(el){
-    return el.name = str;
+    return el.name == str;
   });
 }
 

@@ -2,9 +2,18 @@ function teeth() {
   console.log('Bite with teeth');
 }
 
-function monster() {
+function moo() {
+   theres_a_cow = true;
 
-    if (true){
-      console.log('OMG FUNCTION MONSTERS');
-    }
+   add("roof");
+   add("meow");
+}
+
+function roof() {
+   theres_a_dog = true;
+
+   if (theres_a_dog) {
+       add("meow");
+       add("moo");
+   }
 }

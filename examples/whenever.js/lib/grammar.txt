@@ -2,11 +2,12 @@ start      = statements / other
 
 statements = ff:function+ { return ff }
 
-function   = space f:('function' space name space '(' space ')' space curly ) space { return [].concat.apply([], f).join('') }
+function   = space f:( 'function' space name space '(' space ')' space curly ) space 
+             { return [].concat.apply([], f).join('') }
 
-curly      = '{' c:([^{}]/inner)* '}' { console.log('curly matched'); return '{' + [].concat.apply([], c).join('') + '}'; }
+curly      = '{' c:([^{}]/inner)* '}' { return '{' + [].concat.apply([], c).join('') + '}'; }
 
-inner      = ic:(space '{' [^{}]* '}' space) { console.log('inner called'); return [].concat.apply([], ic); }
+inner      = ic:(space '{' [^{}]* '}' space) { return [].concat.apply([], ic); }
 
 other      = [^]+ { console.log('That statment is not properly formed. Please check README for help'); }
 

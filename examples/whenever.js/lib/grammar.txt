@@ -1,0 +1,11 @@
+start = statements / other
+
+statements = ff:function+ { return ff }
+
+function = space f:('function' space '(' space ')' inner+ ) space { return f }
+
+inner = ic:(space '{' [^{}]* '}' space) { return [].concat.apply([], ic).join(''); }
+
+other = [^]+ { throw new Error('That statment is not properly formed. Please check README for help'); }
+
+space = [ \n]* / !.

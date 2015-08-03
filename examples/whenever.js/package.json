@@ -1,0 +1,22 @@
+{
+  "name": "whenever.js",
+  "version": "0.0.1",
+  "description": "A javascript re-interpretation of Whenever",
+  "main": "whenever.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sarahgp/talking-to-machines/tree/master/examples/whenever.js"
+  },
+  "keywords": [
+    "esolang"
+  ],
+  "author": "Sarah Groff-Palermo",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^2.8.1",
+    "pegjs": "^0.8.0"
+  }
+}

@@ -1,6 +1,8 @@
 # whenever.js
 
-An adaptation and implementation of [Whenever](http://www.dangermouse.net/esoteric/whenever.html) into Javascript.
+An adaptation and implementation of [Whenever](http://www.dangermouse.net/esoteric/whenever.html) into Javascript. 
+
+The biggest divergence from the original implementation is that whenever.js uses function declarations instead of statements and refers to them by their name string as opposed to by statement number.
 
 ## Using Whenever
 
@@ -19,9 +21,9 @@ function name() { ... }
 
 When this statement is executed, the function will run. If you would like access to global variables, you can take advantage of the non-strict environment in which whenever runs and use assignment without `var`:
 
-```
-~~var~~ variable = value;
-```
+
+~~var~~ `variable = value;`
+
 
 #### Built-in Functions
 
@@ -35,50 +37,50 @@ function monsters() {
 
 // add six more copies of the monster statement to the bag
 function addMonsters() {
-	add(monsters, 6);
+	add('monsters', 6);
 }
 ```
 
 ##### Add
 ```js
-add(functionName, #oftimes)
+add('functionNameAsString', #oftimes)
 ```
 
 Adds given number of copies to the execution bag.
 
 ##### Remove
 ```js
-remove(functionName, #oftimes)
+remove('functionNameAsString', #oftimes)
 ```
 
 Removes given number of copies from execution bag. If the number is greater than number of copies, it will leave 0.
 
 ##### Defer
 ```js
-defer(functionToBeExecutedFirst, #numberoftimestoexecute, function(){})
+defer('functionToBeExecutedFirstAsString', #numberoftimestoexecute, function(){} OR 'functionNameAsString')
 ```
 
 Defer will refrain from running the callback until the named function has been executed the given number of times.
 
 ##### Again
 ```js
-again(predicate, function(){})
+again(predicate, function(){} OR 'functionNameAsString')
 ```
 
 If the predicate given to again is true, the callback statement is executed but remains in the bag, to be executed again some time later. If the argument is false, the statement is executed and removed from the to-do list as normal.
 
-The predicate can be simply the name of a function as well as other boolean options. Writing the following, for instance, would execute `monster` as long as 'teeth` has not been executed and removed:
+The predicate can be simply the name of a function as well as other boolean options. Writing the following, for instance, would execute `monster` as long as `teeth` has not been executed and removed:
 
 ```js
 function keepMonstersGoing() {
-	again(teeth, monster)
+	again('teeth', 'monster')
 }
 ```
 
 
 ##### N
 ```js
-N(functionName)
+N('functionNameAsString')
 ```
 
 Will return the number of times the named function has been executed.

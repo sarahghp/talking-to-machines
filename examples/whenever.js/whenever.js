@@ -109,6 +109,6 @@ function run(arr) {
 // ACTION
 
 var baseArray = deStringify(bag),
-    workingArr;
+    workingArr; // this mutates and is not to be trusted!
 
 run(baseArray.slice()); // call run on a copy of the base array

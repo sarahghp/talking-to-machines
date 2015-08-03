@@ -1,11 +1,16 @@
-start = statements / other
+start      = statements / other
 
 statements = ff:function+ { return ff }
 
-function = space f:('function' space '(' space ')' inner+ ) space { return f }
+function   = space f:('function' space name space '(' space ')' curly ) space { return f }
 
-inner = ic:(space '{' [^{}]* '}' space) { return [].concat.apply([], ic).join(''); }
+curly      = '{' c:([^{}]/inner)* '}' { return [].concat.apply([], c).join(''); }
 
-other = [^]+ { throw new Error('That statment is not properly formed. Please check README for help'); }
+inner      = ic:(space '{' [^{}]* '}' space) { return [].concat.apply([], ic); }
 
-space = [ \n]* / !.
+other      = [^]+ { console.log('That statment is not properly formed. Please check README for help'); }
+
+name       = t:text+ space { return t.join(""); }
+text       = [a-zA-Z0-9-._]
+
+space      = [ \n]* / !.

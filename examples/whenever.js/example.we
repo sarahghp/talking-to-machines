@@ -6,14 +6,14 @@ function moo() {
    theres_a_cow = true;
 
    add("roof");
-   add("meow");
+   add("teeth");
 }
 
 function roof() {
    theres_a_dog = true;
 
    if (theres_a_dog) {
-       add("meow");
+       add("teeth");
        add("moo");
    }
 }

@@ -15,6 +15,46 @@
 
 <title>Language</title>
 
+<!--
+
+PEG syntax quick reference
+
+'x'   : match the literal character 'x'
+x+    : match x 1 or more times
+x*    : match x 0 or more times
+x?    : match x 0 or 1 times
+!x    : match anything but the match x
+x/y   : match x or y, trying in that order
+[xyz] : match one of the literal character 'x', 'y', or 'z'
+v:x   : assign the result of the match x to the variable v
+-->
+
+
 <grammar>
-  start   = .
+  start   = expr / str 
+
+
+
+  str = '??' c:char+ '??' { return c.join('') }
+  char = [a-zA-Z 0-9]
+
+  expr = op:operators space a:number+ {   
+    return a.reduce(function(prev, next){
+      return eval(prev + op + next);
+    });
+  }
+
+  operators = '+' / '-' / '*' / '/'
+
+  number = d:digit+ space { return +d.join('') }
+  digit = [0-9]
+  space = [ ]*
+
 </grammar>
+
+
+<h3>Examples</h3>
+<code>+ 3 10</code>
+<code>+ 3 10 33</code>
+<code>??cat??</code>
+<code>??cat butt 55??</code>

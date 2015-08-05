@@ -31,14 +31,14 @@ v:x   : assign the result of the match x to the variable v
 
 
 <grammar>
-  start   = expr / str 
+  start   = expr+ / str / rev 
 
-
+  rev = '~~' s:str '~~' { return s.reverse(); }
 
   str = '??' c:char+ '??' { return c.join('') }
   char = [a-zA-Z 0-9]
 
-  expr = op:operators space a:number+ {   
+  expr = '(' op:operators space a:(expr/number)+ ')' space {   
     return a.reduce(function(prev, next){
       return eval(prev + op + next);
     });
@@ -54,7 +54,11 @@ v:x   : assign the result of the match x to the variable v
 
 
 <h3>Examples</h3>
-<code>+ 3 10</code>
-<code>+ 3 10 33</code>
+<code>(+ 3 10)</code>
+<code>(+ 3 10 33)</code>
+<code>(/ (+ (+ 44 1) (- 4 5)) 21)</code>
+
 <code>??cat??</code>
 <code>??cat butt 55??</code>
+
+<code expect='"eikooc"'>~~??cookie??~~</code>
